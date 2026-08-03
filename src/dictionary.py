@@ -22,6 +22,9 @@ class Dictionary:
     def approved_pos(self, word: str) -> str | None:
         return self._approved.get(word)
 
+    def is_unapproved(self, word: str) -> bool:
+        return word in self._unapproved
+
     def is_technical(self, word: str) -> bool:
         return word in self._technical["nouns"] or word in self._technical["verbs"]
 

@@ -30,6 +30,11 @@ def test_alternative_missing():
     assert DICT.alternative("xyzzy") == []
 
 
+def test_is_unapproved():
+    assert DICT.is_unapproved("utilize")
+    assert not DICT.is_unapproved("use")
+
+
 def test_technical_membership():
     assert "actuator" in DICT.technical_nouns
     assert "switch on" in DICT.technical_verbs
