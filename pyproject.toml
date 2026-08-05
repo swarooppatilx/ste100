@@ -22,6 +22,9 @@ dev = [
     "twine",
 ]
 
+[project.scripts]
+ste100 = "src.cli:app"
+
 [tool.setuptools]
 package-dir = {"src" = "src"}
 
