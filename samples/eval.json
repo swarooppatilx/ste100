@@ -1,0 +1,18 @@
+[
+  {"text": "Utilize the wrench.", "expected": ["1.1"]},
+  {"text": "Open the valve slowly.", "expected": []},
+  {"text": "Test the valve.", "expected": ["1.2"]},
+  {"text": "The system has been checked.", "expected": ["3.2", "3.6"]},
+  {"text": "The valve is to be replaced.", "expected": ["3.4"]},
+  {"text": "The valve was removed.", "expected": ["3.6"]},
+  {"text": "Carry out the inspection.", "expected": ["9.3"]},
+  {"text": "Remove the filter; then inspect it.", "expected": ["8.1"]},
+  {"text": "The colour filter is installed.", "expected": ["1.1", "1.14", "3.6"]},
+  {"text": "The fuel system line valve was removed.", "expected": ["2.1", "3.6"]},
+  {"text": "The crew is removing the panel.", "expected": ["1.1", "3.2", "3.5"]},
+  {"text": "Switch on the motor.", "expected": []},
+  {"text": "Install the actuator in the duct.", "expected": []},
+  {"text": "Use the correct tool.", "expected": []},
+  {"text": "Install the generator.", "expected": []},
+  {"text": "Open the door.", "expected": []}
+]
