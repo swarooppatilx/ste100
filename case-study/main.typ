@@ -1,6 +1,7 @@
 // ============================================================
 //  ASD-STE100 Compliance Checker, NLP Case Study Report
-//  College format (reference: "Case Study in college format").
+//  College format: cover, certificate, acknowledgement,
+//  abstract + TOC, then the numbered case-study sections.
 //  Color scheme: navy blue accent (classic academic); all
 //  text/background pairs meet WCAG AA contrast.
 //  Font note: template font "Linux Libertine" is not installed
@@ -40,7 +41,7 @@
 
 // -- Global typography ----------------------------------------
 #set text(font: "Liberation Serif", size: 11pt, hyphenate: true)
-#set par(leading: 0.62em, justify: true, spacing: 0.4em)
+#set par(leading: 0.7em, justify: true, spacing: 0.5em)
 #set heading(numbering: (..ns) => {
   let n = ns.pos()
   if n.len() == 1 { str(n.first()) + "." } else { n.map(str).join(".") }
@@ -48,7 +49,7 @@
 #show heading: set block(breakable: false)
 
 #show heading.where(level: 1): it => {
-  v(0.45em)
+  v(0.5em)
   text(weight: "bold", size: 16pt, fill: accent)[#it]
   v(0.2em)
 }
@@ -114,7 +115,7 @@
 #let data-table(headers, rows, cols, caption: none) = {
   let tbl = table(
     columns: cols,
-    inset: (x: 5pt, y: 3pt),
+    inset: (x: 5pt, y: 4pt),
     align: left,
     stroke: 0.4pt + rule,
     fill: (col, row) => if calc.even(row) { tint-dark } else { white },
@@ -182,7 +183,79 @@
 ]
 
 // ============================================================
-//  TABLE OF CONTENTS
+//  CERTIFICATE
+// ============================================================
+#pagebreak()
+
+#text(size: 16pt, weight: "bold", fill: accent)[Certificate]
+#v(3pt)
+#line(length: 100%, stroke: 0.5pt + rule)
+#v(0.4cm)
+
+This is to certify that the Case Study entitled
+
+#v(0.15cm)
+#align(center)[
+  #text(size: 12pt, weight: "bold")[
+    ASD-STE100 Compliance Checker Using NLP: A Rule-Based Controlled-Language Compliance Checking Tool for Simplified Technical English using Python and spaCy
+  ]
+]
+#v(0.15cm)
+
+being submitted by
+
+#v(0.15cm)
+#align(center)[
+  #text(size: 11.5pt, weight: "bold")[Swaroop Dattatraya Patil #h(8pt) (23510046)]
+]
+#v(0.2cm)
+
+is a record of bonafide work carried out by him under the supervision and guidance of *Mrs. Gunjan Ukalkar*, in partial fulfillment of the requirements for the elective course Natural Language Processing (ITPEC702B), In-Sem I Examination, Fourth Year (Information Technology), Academic Year 2025–2026, at All India Shri Shivaji Memorial Society's Institute of Information Technology, Pune, affiliated to Savitribai Phule Pune University.
+
+#v(1.4cm)
+#grid(
+  columns: (1fr, 1fr),
+  align(left)[*Place:* Pune],
+  []
+)
+#v(1.5cm)
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1cm,
+  align(center)[
+    #line(length: 75%)
+    #v(3pt)
+    Mrs. Gunjan Ukalkar \
+    *Course Teacher*
+  ],
+  align(center)[
+    #line(length: 75%)
+    #v(3pt)
+    *Head of the Department*
+  ]
+)
+
+// ============================================================
+//  ACKNOWLEDGEMENT
+// ============================================================
+#pagebreak()
+
+#text(size: 16pt, weight: "bold", fill: accent)[Acknowledgement]
+#v(3pt)
+#line(length: 100%, stroke: 0.5pt + rule)
+#v(0.4cm)
+
+I express my sincere gratitude to *Mrs. Gunjan Ukalkar* for her guidance, constant encouragement, and valuable feedback throughout the development of this case study. Her teaching of natural language processing fundamentals shaped the approach used in this work.
+
+I am equally grateful to the faculty members of the Information Technology Department for their support and for clarifying doubts at various stages of the work.
+
+I also thank the ASD STEMG for keeping the ASD-STE100 specification freely available, the authors of the research papers referenced in this report, and the maintainers of the open-source tools (spaCy and Typer) that this project builds upon.
+
+#v(1.5cm)
+#align(right)[*Swaroop Dattatraya Patil* \ Roll No. 23510046]
+
+// ============================================================
+//  ABSTRACT AND TABLE OF CONTENTS
 // ============================================================
 #pagebreak()
 #set page(numbering: "1", header: page-header, footer: page-footer)
@@ -213,20 +286,20 @@ ASD-STE100 (Simplified Technical English) governs the vocabulary and grammar of 
 
 = Background / Situation
 
-Technical documents such as aircraft maintenance manuals, operating procedures, and descriptive specifications must be understood identically by every reader, many of whom read English only as a second language. A poorly worded maintenance step can cause incorrect assembly, unscheduled downtime, or, in the worst case, an in-flight failure.
+Technical documents such as aircraft maintenance manuals, operating procedures, and descriptive specifications must be read and understood identically by every technician, many of whom read English only as a second language. A poorly worded step can cause incorrect assembly, unscheduled downtime, or, in the worst case, an in-flight failure.
 
 This safety-critical requirement is why the aerospace industry pioneered controlled writing standards: S1000D, ATA iSpec 2200 and ATA-104, and the EASA/FAA/CAAC directives all mandate or strongly reference simplified, rule-governed English for technical publications [11].
 
-*ASD-STE100*, "Simplified Technical English", is the leading such standard. It was developed jointly by AECMA (Association Européenne des Constructeurs de Matériel Aérospatial) and the AIA (Aerospace Industries Association of America), and its history is short enough for a timeline:
+*ASD-STE100*, "Simplified Technical English", is the leading standard of this kind. It was developed jointly by AECMA (Association Européenne des Constructeurs de Matériel Aérospatial) and the AIA (Aerospace Industries Association of America). Its history is short enough for a timeline:
 
 #obj[*1970s* — development of Simplified English by AECMA with the AIA.]
 #obj[*1986* — publication as the AECMA Guide (PSC-85-16598).]
 #obj[*2004* — renamed ASD-STE100.]
 #obj[*2025* — Issue 9 (January) becomes an international standard, subtitled "Standard for Technical Documentation" [1].]
 
-It now reaches beyond aerospace into defense, rail, automotive, medical, and information technology.
+The standard now reaches beyond aerospace into defense, rail, automotive, medical, and information technology.
 
-The standard has two parts. Part 1 specifies 53 writing rules grouped into nine sections: Words, Noun phrases, Verbs, Sentences, and further chapters covering punctuation, word counts, and writing practices. Part 2 is the controlled dictionary: roughly 900 approved words and 1,200 unapproved words with their approved alternatives. The standard's guiding principle is that each approved word carries one approved meaning and one part of speech: "start" is approved while begin, commence, initiate, and originate are not, and "test" is approved only as a noun, never as a verb.
+STE has two parts. Part 1 defines 53 writing rules in nine sections that cover words, noun phrases, verbs, sentences, punctuation, word counts, and writing practices. Part 2 is the controlled dictionary: roughly 900 approved words and 1,200 unapproved words with their approved alternatives. The guiding principle is one word, one meaning, one part of speech: "start" is approved while begin, commence, initiate, and originate are not, and "test" is approved only as a noun, never as a verb.
 
 #data-table(
   (("Term", "Meaning in this report")),
@@ -244,20 +317,18 @@ The standard has two parts. Part 1 specifies 53 writing rules grouped into nine 
   caption: "Terminology used in this report",
 )
 
-Most of this burden is borne by human reviewers who must hold the 53 rules and roughly 900 approved words in mind; as documentation grows, manual review becomes slow, expensive, and inconsistent. NLP automates the mechanical parts: a pipeline structures the text, a rule engine checks it against the STE rules, and a dictionary supplies approved replacements.
+Today most of this checking is done by hand. A reviewer must keep the 53 rules and roughly 900 approved words in mind, and as documents grow, manual review becomes slow, inconsistent, and expensive. NLP automates the mechanical part: a pipeline structures the text, a rule engine checks it against the STE rules, and a dictionary supplies approved replacements.
 
-#block(breakable: false)[
 = Problem Statement
 
-The problem is the automatic detection of STE writing-rule violations in technical text and the suggestion of approved alternatives. Writing compliant prose is difficult because authors habitually reuse ambiguous vocabulary, construct long noun strings, shift into the passive voice and complex tenses, and exceed the standard's sentence limits. Manual checking presents several specific challenges:
-]
+The problem is the automatic detection of STE writing-rule violations in technical text, together with approved alternatives for each violation. Writers habitually reuse ambiguous vocabulary, build long noun strings, shift into passive voice and complex tenses, and exceed the standard's sentence limits. Manual checking has specific weaknesses:
 
-#obj[The vocabulary and rules are large (53 rules, roughly 900 approved words); no reviewer can hold all of them reliably.]
-#obj[Unapproved words such as "utilize" and "commence", British spellings ("colour", "centre"), noun clusters ("fuel pump housing flange assembly"), and passive voice are subtle and easy to miss.]
-#obj[The same concept can be expressed with different words and structures, defeating simple keyword search.]
+#obj[The rules and vocabulary are large (53 rules, roughly 900 approved words); no reviewer can hold all of them reliably.]
+#obj[Violations are easy to miss: unapproved words such as "utilize" or "commence", British spellings like "colour" and "centre", noun clusters such as "fuel pump housing flange assembly", and passive voice.]
+#obj[The same concept can be expressed with different words and structures, so simple keyword search misses most violations.]
 #obj[Manual review of thousands of pages consumes hundreds of professional-hours and still allows errors to slip through.]
 
-Simple keyword search, the obvious first alternative, is insufficient: it cannot tell that "pump" is an approved verb but not an approved noun, that "has been opened" is a disallowed complex tense while "open" is fine, or that "will be using" is an -ing verb form rather than a modifier. Understanding usage requires morphological, syntactic, and even semantic analysis. A worked contrast:
+Keyword search, the obvious first alternative, cannot tell that "pump" is an approved verb but not an approved noun, that "has been opened" is a disallowed complex tense while "open" is fine, or that "will be using" is an -ing verb form rather than a modifier. These distinctions need morphology, syntax, and a little semantics. A worked contrast:
 
 #data-table(
   (("Non-STE (violations)", "STE (compliant)")),
@@ -271,9 +342,9 @@ Simple keyword search, the obvious first alternative, is insufficient: it cannot
   caption: "Worked contrast of non-STE and STE phrasing",
 )
 
-#callout[Key challenge: How can rule-based NLP automatically analyze technical English, identify violations of the automatable STE rules, and suggest approved alternatives with high precision and recall?][
+#callout[Key challenge][
   #v(2pt)
-  #text(size: 10.5pt)[Section 4.3, "Why rule-based rather than machine-learned?", develops the reasoning behind this approach.]
+  #text(size: 10.5pt)[Can rule-based NLP analyze technical English, detect the automatable STE violations, and suggest approved alternatives with high precision and recall? Section 4.4, "Why rule-based rather than machine-learned?", develops the reasoning behind this approach.]
 ]
 
 = Dataset / Information
@@ -291,7 +362,20 @@ Simple keyword search, the obvious first alternative, is insufficient: it cannot
   caption: "Dictionary files in data/",
 )
 
-Each dictionary entry follows the standard's four-column spirit: the word with its part of speech, the approved meaning or alternatives, an STE example, and a non-STE example:
+Each JSON file is a flat map. `approved.json` maps a word to the one part of speech it may take (rule 1.2 checks this); `unapproved.json` maps an unapproved word to its approved alternative; `technical.json` groups user-defined technical nouns and verbs. Real entries:
+
+```json
+// data/approved.json — word : the only part of speech it may take
+{"test": "NOUN", "start": "VERB", "air": "NOUN", "open": "VERB"}
+
+// data/unapproved.json — unapproved word : approved alternative
+{"utilize": "use", "commence": "start", "abort": "stop", "ascertain": "check"}
+
+// data/technical.json — technical nouns and verbs (rules 1.5 / 1.12)
+{"nouns": ["actuator", "gasket", "nozzle", "wrench"], "verbs": ["drill", "weld", "switch on"]}
+```
+
+Each dictionary entry follows the standard's four-column spirit: the word with its part of speech, the approved meaning or alternatives, an STE example, and a non-STE example.
 
 #data-table(
   (("Word (POS)", "Alternative / Meaning", "STE example", "Non-STE example")),
@@ -307,9 +391,9 @@ Each dictionary entry follows the standard's four-column spirit: the word with i
 
 The dictionary lists the American spelling `utilize` with its alternative; the British variant `utilise` is equally unapproved but, being absent from the dictionary, is flagged only as an unknown word, without a suggested alternative.
 
-Technical nouns and verbs (rules 1.5 and 1.12) keep the checker practical: because these words cannot be enumerated in a general dictionary, an organization defines its own. The sample set includes component nouns (`actuator`, `duct`, `gasket`, `turbine`, `wrench`) and process verbs (`drill`, `weld`, `solder`, `switch on`, `taxi`), all editable in `technical.json`.
+Technical nouns and verbs (rules 1.5 and 1.12) keep the checker practical. A general dictionary cannot enumerate every component or process, so each organization defines its own. The sample set includes component nouns such as `actuator`, `duct`, `gasket`, `turbine`, and `wrench`, and process verbs such as `drill`, `weld`, `solder`, `switch on`, and `taxi`, all editable in `technical.json`.
 
-Annotated Evaluation Suite. `samples/eval.json` contains 16 short sentences, each labeled with the rule ids that should be flagged, including deliberately compliant sentences to measure false positives:
+*Annotated Evaluation Suite.* `samples/eval.json` holds 16 short sentences, each labeled with the rule ids that should fire, including deliberately compliant sentences to measure false positives:
 
 #data-table(
   (("Sentence", "Expected rules")),
@@ -350,7 +434,7 @@ The whole project is developed and verified with a small, modern toolchain:
 #block(breakable: false)[
   = Analysis
 
-  The compliance problem decomposes into linguistically well-defined sub-tasks, each implemented as a rule over spaCy's statistical features (`en_core_web_sm`):
+  Each rule targets one specific part of the language. Some look at single words, others at sentence structure. The checker implements ten rules from the standard:
 
   == Rule inventory
 
@@ -373,21 +457,52 @@ The whole project is developed and verified with a small, modern toolchain:
   )
 ]
 
-Tags follow spaCy's schemes: `nsubjpass`/`auxpass` are Universal Dependencies roles (passive subject / auxiliary); `VBN` (past participle) and `VBG` (gerund) are Penn Treebank tags.
+The tag names come from spaCy's schemes: `nsubjpass`/`auxpass` are Universal Dependencies roles (passive subject / auxiliary), `VBN` is a Penn Treebank past-participle tag, and `VBG` a gerund tag.
 
-The rules fall into two families. Lexical rules (1.1, 1.2, 1.14, 9.3) compare token forms, lemmas, and POS tags against the dictionary; these decisions are nearly deterministic once the dictionary is reliable. Syntactic rules (2.1, 3.2–3.6, 5.1/6.3, 8.1) walk sentence structure: passive voice is detected by following the dependency chain `nsubjpass, aux*, auxpass, VBN` (the strategy behind PassivePy [9]), complex tenses by matching auxiliary-lemma patterns, and noun clusters by counting consecutive nominal tags.
+The rules fall into two families. Lexical rules (1.1, 1.2, 1.14, 9.3) compare token forms, lemmas, and POS tags against the dictionary; once the dictionary is reliable, these decisions are straightforward. Syntactic rules (2.1, 3.2–3.6, 5.1/6.3, 8.1) walk sentence structure: passive voice follows the dependency chain `nsubjpass, aux*, auxpass, VBN` (the strategy behind PassivePy [9]), complex tenses match auxiliary-lemma patterns, and noun clusters are counted runs of nominal tags.
+
+== How a rule fires
+
+To see how the linguistic features drive the rules, consider the first sentence of `samples/non_compliant.txt`:
+
+```text
+The valve has been opened before the system was checked.
+```
+
+spaCy produces these tokens, lemmas, POS tags, and dependencies:
+
+#data-table(
+  (("Token", "Lemma", "POS", "Dependency", "Head")),
+  (
+    ("The", "the", "DET", "det", "valve"),
+    ("valve", "valve", "NOUN", "nsubjpass", "opened"),
+    ("has", "have", "AUX", "aux", "opened"),
+    ("been", "be", "AUX", "auxpass", "opened"),
+    ("opened", "open", "VERB", "ROOT", "opened"),
+    ("before", "before", "SCONJ", "mark", "checked"),
+    ("the", "the", "DET", "det", "system"),
+    ("system", "system", "NOUN", "nsubjpass", "checked"),
+    ("was", "be", "AUX", "auxpass", "checked"),
+    ("checked", "check", "VERB", "advcl", "opened"),
+    (".", ".", "PUNCT", "punct", "opened"),
+  ),
+  (0.5fr, 0.5fr, 0.45fr, 0.9fr, 0.6fr),
+  caption: "Linguistic analysis of one sentence and how rules 3.2 / 3.6 fire",
+)
+
+Rule 3.6 walks the tokens looking for a `nsubjpass` role. It finds `valve` and `system`, each with a passive auxiliary. The first verb, `opened`, collects the span "has been opened was" — the span reaches into the next clause because the parser attaches `was` into `opened`'s subtree. Rule 3.2 separately matches the perfect-tense pattern *has + been + past participle* and reports "has been opened". Both flags for the same clause match the suite's expectation `3.2, 3.6`.
 
 == Non-automatable rules
 
-Two rule families are documented as non-automatable and out of scope. Rule 1.3 requires checking that an approved word is used with its approved meaning ("follow" as "come after", not "obey"), which demands semantic comprehension beyond current lexical resources. Topic-sentence rules and the question of whether a text is understandable likewise resist rule-based checking. A checker is therefore an aid, not a proof of compliance.
+Two rule families are documented as non-automatable and out of scope. Rule 1.3 requires checking that an approved word is used with its approved meaning ("follow" as "come after", not "obey"), which needs semantic comprehension beyond today's lexical resources. Topic-sentence rules and the question of whether a text is understandable resist rule-based checking for the same reason. A checker is therefore an aid, not a proof of compliance.
 
 == Why rule-based rather than machine-learned?
 
-STE is itself a closed rule system, so the natural engineering approach is to encode those rules directly. The limited availability of publicly labeled STE-compliance data makes a conventional supervised-learning approach difficult. Many established controlled-language checkers, including BSEC [2], SECC [3], Congree, Acrolinx, and MAXit, use rule-based approaches for exactly this reason [5]. The choice keeps the tool explainable: each flag is traceable to a rule, a span, and the dictionary.
+STE is itself a closed rule system, so the direct engineering approach is to encode those rules. Publicly labeled STE-compliance data is scarce, which makes supervised learning impractical. Established checkers — BSEC [2], SECC [3], Congree, Acrolinx, MAXit — are rule-based for the same reason [5]. Every flag also points back to one rule, one span, and one dictionary entry, which keeps the tool auditable.
 
 = Solution
 
-The solution is an incremental, rule-based NLP pipeline built on spaCy. It is intentionally model-light: the only trained model is `en_core_web_sm` (tokenizer, tagger, parser, lemmatizer); all STE logic is hand-written rules over it.
+The solution is an incremental, rule-based NLP pipeline built on spaCy. It is deliberately model-light: the only trained model is `en_core_web_sm` (tokenizer, tagger, parser, lemmatizer); all STE logic is hand-written rules on top of it.
 
 #fig("assets/architecture.svg", "Figure 1. System architecture of the ASD-STE100 compliance checker", width-val: 69%)
 
@@ -401,55 +516,172 @@ The pipeline proceeds in five steps:
 #obj[*Rendering and CLI:* the report is formatted as text or serialized as JSON; `ste100 <file> [--format text|json]` drives the whole pipeline.]
 #obj[*Evaluation:* a harness compares detected rule ids against the annotated suite to compute precision, recall, and F1.]
 
-== Implementation and reporting
+== How the rules are implemented
 
-The rule engine (`src/engine.py`) is a pluggable registry: each rule is a class with `rule_id`, `description`, and `check(doc)`, and the engine rejects duplicate ids at registration. Violations use character offsets (`token.idx` to `idx + len(token.text)`) so reports map back to the source text unambiguously. The dictionary layer (`src/dictionary.py`) exposes `is_approved`, `approved_pos`, `is_unapproved`, `is_technical`, `is_known`, and `alternative`, a single vocabulary interface consulted by every rule.
+Each rule is a small class with a `check(doc)` method, so the code reads like the standard's wording. The passive rule walks tokens for a passive subject, then collects the auxiliary span:
 
-Running the tool on `samples/non_compliant.txt` produces a terminal report. Spans in parentheses are character offsets into the source text; the listing is truncated (entries 2–8, 12–13, and 15–18 omitted):
+```python
+class PassiveRule(Rule):
+    rule_id = "3.6"
+    description = "Detect passive voice"
+
+    _PASSIVE_DEPS = {"auxpass", "aux", "neg"}
+
+    def check(self, doc: Doc) -> list[Violation]:
+        violations = []
+        for token in doc:
+            if token.dep_ != "nsubjpass":
+                continue
+            verb = token.head
+            span_tokens = self._passive_span(verb)
+            if not span_tokens:
+                continue
+            violations.append(
+                Violation(
+                    rule_id=self.rule_id,
+                    start=span_tokens[0].idx,
+                    end=span_tokens[-1].idx + len(span_tokens[-1].text),
+                    message=f'passive voice: "{" ".join(t.text for t in span_tokens)}"',
+                    suggestion="rewrite in active voice",
+                )
+            )
+        return violations
+
+    def _passive_span(self, verb: Token) -> list[Token]:
+        span = [
+            token for token in verb.subtree
+            if token.dep_ in self._PASSIVE_DEPS or token is verb
+        ]
+        return sorted(span, key=lambda token: token.i)
+```
+
+The noun-cluster rule is simpler: it counts consecutive nouns and reports the run once it passes the limit:
+
+```python
+class NounClusterRule(Rule):
+    rule_id = "2.1"
+    description = "Flag noun clusters of more than three nouns"
+
+    _NOUN_POS = {"NOUN", "PROPN"}
+
+    def check(self, doc: Doc) -> list[Violation]:
+        violations = []
+        for sent in doc.sents:
+            run = []
+            for token in sent:
+                if token.pos_ in self._NOUN_POS:
+                    run.append(token)
+                else:
+                    violations.extend(self._flush(run))
+                    run = []
+            violations.extend(self._flush(run))
+        return violations
+
+    def _flush(self, run: list[Token]) -> list[Violation]:
+        if len(run) <= self.max_nouns:
+            return []
+        text = " ".join(token.text for token in run)
+        return [
+            Violation(
+                rule_id=self.rule_id,
+                start=run[0].idx,
+                end=run[-1].idx + len(run[-1].text),
+                message=f'noun cluster of {len(run)} nouns: "{text}"',
+                suggestion="break the cluster with prepositions or adjectives",
+            )
+        ]
+```
+
+The rule engine (`src/engine.py`) is a pluggable registry: rules register by rule id and the engine rejects duplicates. The dictionary layer (`src/dictionary.py`) exposes `is_approved`, `approved_pos`, `is_unapproved`, `is_technical`, `is_known`, and `alternative` — one vocabulary interface used by every rule. Violations carry character offsets (`token.idx` to `idx + len(token.text)`) so every report maps back to the source text exactly.
+
+== Reporting and the command line
+
+Running the tool on `samples/non_compliant.txt` produces the full report. The spans in parentheses are character offsets into the source text:
 
 ```text
 $ ste100 samples/non_compliant.txt
-Words: 45   Sentences: 3   Violations: 20
+Words: 45
+Sentences: 3
+Violations: 20
 
 1. [1.1] "Utilize" is not an approved word (57-64)
-   ...
+   suggestion: use
+2. [1.1] "colour" is not in the approved or technical dictionary (69-75)
+3. [1.1] "coded" is not in the approved or technical dictionary (76-81)
+4. [1.1] "final" is not in the approved or technical dictionary (105-110)
+5. [1.1] "main" is not in the approved or technical dictionary (127-131)
+6. [1.1] "crew" is not in the approved or technical dictionary (221-225)
+7. [1.1] "will" is not in the approved or technical dictionary (226-230)
+8. [1.2] "before" is approved only as adp; it is used here as sconj (26-32)
+   suggestion: use "before" only as a adp
 9. [1.2] "pump" is approved only as verb; it is used here as noun (137-141)
+   suggestion: use "pump" only as a verb
 10. [2.1] noun cluster: "fuel pump housing flange assembly" (132-165)
+   suggestion: break the cluster with prepositions or adjectives
 11. [3.6] passive voice: "has been opened was" (10-47)
+   suggestion: rewrite in active voice
+12. [3.6] passive voice: "was checked" (44-55)
+   suggestion: rewrite in active voice
+13. [3.6] passive voice: "was tightened" (166-179)
+   suggestion: rewrite in active voice
 14. [3.2] perfect tense: "has been opened" (10-25)
+   suggestion: use the present tense
+15. [3.4] is to be + past participle: "to be replaced" (198-212)
+   suggestion: use the present tense
+16. [3.2] progressive tense: "will be using" (226-239)
+   suggestion: use the present tense
+17. [3.5] "using" is an -ing form used as a verb (234-239)
+   suggestion: use the verb "use" instead
+18. [8.1] semicolons are not allowed (121-122)
+   suggestion: split the sentence or use a full stop
 19. [1.14] "colour" is British spelling (69-75)
+   suggestion: use American spelling "color"
 20. [9.3] "carry out" is a phrasal verb (91-100)
+   suggestion: do, measure
 ```
 
-The clause "has been opened" is flagged twice: rule 3.6 catches the passive construction and rule 3.2 the perfect tense, matching the evaluation suite's expectation `3.2, 3.6` for "The system has been checked."
-
-The same analysis is available as machine-readable JSON for downstream tooling such as editors, dashboards, or CI pipelines (truncated to two entries):
+The same analysis is available as JSON for editors, dashboards, or CI pipelines. Two entries:
 
 ```json
 {
   "words": 45, "sentences": 3, "total": 20,
   "violations": [
     {"rule": "1.1", "start": 57, "end": 64, "text": "Utilize",
-     "message": "\"Utilize\" is not an approved word",
-     "suggestion": "use"},
-    {"rule": "1.2", "start": 137, "end": 141, "text": "pump",
-     "message": "\"pump\" is approved only as verb; it is used here as noun",
-     "suggestion": "use \"pump\" only as a verb"}
+     "message": "\"Utilize\" is not an approved word", "suggestion": "use"},
+    {"rule": "3.6", "start": 166, "end": 179, "text": "was tightened",
+     "message": "passive voice: \"was tightened\"",
+     "suggestion": "rewrite in active voice"}
   ]
 }
 ```
 
-== Extensibility
+== Extensibility and design principles
 
-Extensibility is a first-class requirement: adding a domain word means appending one line to `technical.json`, and adding a new check means implementing a `Rule` subclass and registering it with the engine. No other code changes.
+Extensibility was a design requirement from the start. Adding a domain word means appending one line to `technical.json`; adding a new check means implementing a `Rule` subclass and registering it with the engine. No other code changes. A few principles guided the design:
+
+#obj[*Pluggable rules:* one class per rule; the engine is a registry, not a switch statement.]
+#obj[*One dictionary interface:* every rule reads the vocabulary through the same API.]
+#obj[*Offsets, not guesses:* violations carry character spans, so reports map back to the source exactly.]
+#obj[*Version sync:* `src/__init__.py` carries the release version, kept equal to the git tag.]
+#obj[*CI on every push:* ruff, formatting, and pytest run across Python 3.11–3.14 before anything is released.]
 
 = Real-World Implementation
 
-STE compliance checking is an established, in-production technology. Boeing's BSEC, a full-parse grammar checker with over 400 rules, has checked commercial aircraft documentation since 1990; Wojcik, Harrison, and Bremer report precision 79% and recall 89% on their evaluation [2]. The SECC project (Adriaens & Macken, 1995) embedded STE checking in a machine-translation framework, reporting 87% precision, 93% recall [3], and a "convergence test" for how quickly corrections converge to compliant text [4].
+STE checking is established, in-production technology. Boeing's BSEC, a full-parse grammar checker with more than 400 rules, has reviewed commercial aircraft documentation since 1990; Wojcik, Harrison, and Bremer report 79% precision and 89% recall [2]. The SECC project (Adriaens & Macken, 1995) embedded STE checking in a machine-translation framework, reporting 87% precision and 93% recall [3], plus a "convergence test" that measures how quickly corrections settle on compliant text [4].
 
-Several commercial and open-source checkers are in production. Congree, Acrolinx, and MAXit (whose SMART system maintains 19,000+ rules) sell STE checking inside authoring environments; LanguageTool-based term checkers exist, for example TechScribe; and open-source suites include dfch's `AsdSte100*` family and HendrikLuedemann's S1000D-STE100-Tool-Suite, an Issue-9 linter. Shaw [7] surveys STE's uptake in the twenty-first century, Bernth [6] extends controlled-language checking from the sentence to the discourse level, Mitamura and Nyberg [8] drive knowledge-based machine translation from controlled English, and Zambrini and Chiarello [10] analyze how STE's term categories have evolved across specification issues.
+Commercial and open-source checkers are in widespread use. Congree, Acrolinx, and MAXit (whose SMART system maintains 19,000+ rules) sell STE checking inside authoring environments; TechScribe offers a LanguageTool-based checker; and open-source suites include dfch's `AsdSte100*` family and HendrikLuedemann's S1000D-STE100-Tool-Suite, an Issue-9 linter. Shaw [7] surveys STE's uptake in the twenty-first century, Bernth [6] extends controlled-language checking from the sentence to the discourse level, Mitamura and Nyberg [8] drive knowledge-based machine translation from controlled English, and Zambrini and Chiarello [10] analyze how STE's term categories have evolved across specification issues.
 
-The checker described here reproduces this behavior with far less machinery. On its 16-sentence annotated suite it detects 16 true positives, 1 false positive, and 0 false negatives, giving precision 0.941, recall 1.000, and F1 0.970. Although the datasets, rule coverage, and evaluation methodologies are not directly comparable, these results are encouraging relative to the reported historical figures. Because the evaluation suite contains only 16 sentences, the metrics should be interpreted as preliminary rather than as evidence of generalization to unrestricted technical documentation:
+== Evaluation
+
+The 16-sentence suite is annotated with the rule ids that should fire (Section 3). Detection counts are: a *true positive* flags a violation the suite expects; a *false positive* flags text the suite marks compliant; a *false negative* misses an expected violation. From these counts:
+
+```text
+precision  = TP / (TP + FP)   = 16 / 17 = 0.941
+recall     = TP / (TP + FN)   = 16 / 16 = 1.000
+F1         = 2 · P · R / (P + R)       = 0.970
+```
+
+The tool detects 16 true positives, 1 false positive, and 0 false negatives on the suite. The results, with the reported historical figures for context:
 
 #data-table(
   (("Checker", "Precision", "Recall", "Notes")),
@@ -476,26 +708,16 @@ The checker described here reproduces this behavior with far less machinery. On 
   caption: "Evaluation metrics on the 16-sentence annotated suite",
 )
 
-Because the suite was written alongside the rules, this perfect recall reflects tuning to known behaviors rather than independent validation.
-
-The single false positive is rule 1.1 flagging "Install the generator." The word `generator` is a legitimate technical noun not yet present in the small curated dictionary. This is an honest illustration of the extensibility mechanism rather than a logic error: adding `generator` to `technical.json` removes the flag entirely.
+Because the suite was written alongside the rules, this perfect recall reflects tuning to known behavior rather than independent validation. The single false positive is rule 1.1 flagging "Install the generator." The word `generator` is a legitimate technical noun not yet present in the small curated dictionary. This is expected behavior, not a bug: add `generator` to `technical.json` and the flag disappears.
 
 = Advantages
 
-#grid(columns: (1fr, 1fr), gutter: 12pt,
-  block[
-    #obj[Automates repetitive, high-volume compliance review.]
-    #obj[Flags every violation with its STE rule and the offending span.]
-    #obj[Suggests approved alternatives directly from the dictionary.]
-    #obj[Explainable output: each flag traces to a rule, a span, and a lookup.]
-  ],
-  block[
-    #obj[Extensible technical nouns and verbs for any domain via JSON.]
-    #obj[Lightweight: one statistical model plus hand-written rules.]
-    #obj[Structured reports (text and JSON) for editors and CI pipelines.]
-    #obj[Rule-based by design, matching every established checker in the field.]
-  ],
-)
+#obj[*Fast:* a file is checked in well under a second once spaCy is loaded, regardless of length.]
+#obj[*Consistent:* the same rules and the same dictionary apply to every file, with no reviewer fatigue.]
+#obj[*Actionable:* every violation names the rule, the offending span, and an approved alternative.]
+#obj[*Auditable:* a flag always traces back to one rule, one span, and one dictionary entry.]
+#obj[*Extensible:* new technical nouns, verbs, and rules are added without touching existing code.]
+#obj[*Lightweight:* one statistical model plus hand-written rules — no training pipeline, no GPU.]
 
 = Limitations
 
@@ -503,22 +725,41 @@ The single false positive is rule 1.1 flagging "Install the generator." The word
   block[
     #obj[Rules 1.3 (approved meanings), topic sentences, and semantic comprehension cannot be checked automatically.]
     #obj[Performance depends on dictionary coverage; the curated subset is intentionally small.]
-    #obj[The evaluation suite is small (16 sentences) and cannot match the scale of BSEC/SECC studies.]
+    #obj[The evaluation suite is small (16 sentences) and cannot match the scale of the BSEC/SECC studies.]
   ],
   block[
     #obj[Passive-voice and tense detection inherit spaCy's tagging accuracy on unusual or noisy prose.]
-    #obj[Checkers are aids, not proofs: a text can be word-compliant yet still incorrect in meaning.]
-    #obj[An STE expert remains necessary for final approval of critical or high-risk documentation.]
+    #obj[Checkers are aids, not proofs: a text can be word-compliant yet still wrong in meaning.]
+    #obj[An STE expert must still approve critical or high-risk documentation.]
   ],
 )
 
+Running the tool also surfaced a few quirks worth recording — none breaks the checker, but each shows where rule-based output needs human judgment:
+
+#callout[Observed output quirks][
+  #v(2pt)
+  #text(size: 10.5pt)[
+    #obj[`will` is flagged as an unknown word (rule 1.1) because the modal is not in the dictionary; the report cannot yet suggest rewriting "will be using" as "use".]
+    #obj[`colour` is flagged twice — once as an unknown word (1.1) and once as a British spelling (1.14).]
+    #obj[One suggestion reads "use `before` only as a adp", a wording slip in the part-of-speech template (a vs. an).]
+    #obj[Passive spans can reach into the next clause, as "has been opened was" shows; the span is a hint, not a parse.]
+  ]
+]
+
 = Conclusion
 
-*Key finding.* A rule-based NLP checker built on spaCy's statistical pipeline can enforce the automatable parts of ASD-STE100, at least on a small annotated suite. Ten rules reproduce the documented violation classes — from unapproved words and British spelling to noun clusters, complex tenses, and phrasal verbs — each flag carrying an approved alternative. The tool reaches precision 0.941, recall 1.000, and F1 0.970: encouraging, though preliminary, results.
+*Key finding.* A rule-based NLP checker built on spaCy's statistical pipeline can enforce the automatable parts of ASD-STE100, at least on a small annotated suite. Ten rules reproduce the documented violation classes — from unapproved words and British spelling to noun clusters, complex tenses, and phrasal verbs — and every flag carries an approved alternative. On the 16-sentence suite the tool reaches precision 0.941, recall 1.000, and F1 0.970.
 
-*Lessons learned.* Hand-written rules over statistical features remain the right choice because STE is a closed rule system with limited public labeled data; BSEC, SECC, and today's commercial products take the same approach. A pluggable rule registry and a single dictionary interface keep the tool small and auditable, so a new rule or vocabulary entry touches one place. Honest evaluation — deliberately compliant sentences and known false positives — matters as much as the rules themselves.
+*Lessons learned.* Hand-written rules over statistical features remain the right choice because STE is a closed rule system with little public labeled data; BSEC, SECC, and today's commercial products take the same approach. A pluggable rule registry and a single dictionary interface keep the tool small and auditable: a new rule or vocabulary entry touches one place. The deliberately compliant sentences and the known false positive made the evaluation honest.
 
-*Future work.* Coverage can expand toward all 53 rules and a larger dictionary; LLM-assisted whole-sentence rephrasing could be verified by the rule engine, per the STEMG's caution that AI text must be checked, not assumed compliant. S1000D/DITA-aware checking, a web interface, and a larger open annotated corpus would support reproducible benchmarking.
+*What this case illustrates.* For a student of natural language processing:
+
+#obj[A rule system (STE) can be encoded directly as rules over statistical features — no training data needed.]
+#obj[Curated, extensible data decides what the checker can say; coverage is the binding constraint.]
+#obj[Evaluation design matters: precision and recall are only as meaningful as the annotated suite.]
+#obj[Automation stops at semantics: approved meanings, topic sentences, and comprehension stay with the human reviewer.]
+
+*Future work.* Coverage can expand toward all 53 rules and a larger dictionary; LLM-assisted rephrasing could be verified by the rule engine, following the STEMG's caution that AI text must be checked, not assumed compliant. S1000D/DITA-aware checking, a web interface, and a larger open annotated corpus would support reproducible benchmarking.
 
 = References
 
