@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" font-family="Liberation Serif, serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#14325a"/>
+    </marker>
+    <marker id="arrowR" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M9,0 L9,6 L0,3 z" fill="#5b708c"/>
+    </marker>
+    <marker id="arrowL" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#5b708c"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1000" height="700" fill="#ffffff"/>
+
+  <!-- 1. Input text -->
+  <rect x="340" y="20" width="320" height="60" rx="6" fill="#f1f3f5" stroke="#14325a" stroke-width="1.5"/>
+  <text x="500" y="48" text-anchor="middle" font-size="20" font-weight="bold" fill="#14325a">Input Text</text>
+  <text x="500" y="70" text-anchor="middle" font-size="14" fill="#14325a">unstructured technical document</text>
+
+  <line x1="500" y1="80" x2="500" y2="120" stroke="#14325a" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 2. spaCy pipeline -->
+  <rect x="300" y="120" width="400" height="80" rx="6" fill="#e8ecf1" stroke="#14325a" stroke-width="1.5"/>
+  <text x="500" y="154" text-anchor="middle" font-size="20" font-weight="bold" fill="#14325a">spaCy Pipeline</text>
+  <text x="500" y="178" text-anchor="middle" font-size="14" fill="#14325a">en_core_web_sm · tokens · POS · dependencies · lemmas</text>
+
+  <line x1="500" y1="200" x2="500" y2="240" stroke="#14325a" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 3. Linguistic Doc -->
+  <rect x="360" y="240" width="280" height="52" rx="6" fill="#f1f3f5" stroke="#14325a" stroke-width="1.5"/>
+  <text x="500" y="272" text-anchor="middle" font-size="20" font-weight="bold" fill="#14325a">Linguistic Doc</text>
+
+  <line x1="500" y1="292" x2="500" y2="332" stroke="#14325a" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 4. STE Rule Engine -->
+  <rect x="280" y="332" width="440" height="120" rx="6" fill="#d9dee5" stroke="#14325a" stroke-width="1.5"/>
+  <text x="500" y="368" text-anchor="middle" font-size="20" font-weight="bold" fill="#14325a">STE Rule Engine</text>
+  <text x="500" y="394" text-anchor="middle" font-size="14" fill="#14325a">10 automatable rules over the Doc</text>
+  <text x="500" y="416" text-anchor="middle" font-size="14" fill="#14325a">each flag traced to a rule and a span</text>
+
+  <!-- Dictionary -->
+  <rect x="820" y="352" width="160" height="90" rx="6" fill="#f1f3f5" stroke="#5b708c" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="900" y="382" text-anchor="middle" font-size="17" font-weight="bold" fill="#14325a">STE Dictionary</text>
+  <text x="900" y="408" text-anchor="middle" font-size="13" fill="#14325a">approved · unapproved</text>
+  <text x="900" y="426" text-anchor="middle" font-size="13" fill="#14325a">technical (JSON)</text>
+  <line x1="720" y1="400" x2="820" y2="400" stroke="#5b708c" stroke-width="1.2" stroke-dasharray="4 3" marker-start="url(#arrowR)" marker-end="url(#arrowL)"/>
+  <text x="770" y="390" text-anchor="middle" font-size="13" font-style="italic" fill="#5b708c">vocabulary</text>
+
+  <line x1="500" y1="452" x2="500" y2="492" stroke="#14325a" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 5. Violation Report -->
+  <rect x="300" y="492" width="400" height="78" rx="6" fill="#c7ced9" stroke="#14325a" stroke-width="1.5"/>
+  <text x="500" y="524" text-anchor="middle" font-size="20" font-weight="bold" fill="#14325a">Violation Report</text>
+  <text x="500" y="548" text-anchor="middle" font-size="14" fill="#14325a">rule · span · message · approved suggestion</text>
+
+  <line x1="500" y1="570" x2="500" y2="610" stroke="#14325a" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- 6. Text / JSON -->
+  <rect x="340" y="610" width="320" height="60" rx="6" fill="#14325a"/>
+  <text x="500" y="638" text-anchor="middle" font-size="18" font-weight="bold" fill="#f2f4f6">Text / JSON Output</text>
+  <text x="500" y="660" text-anchor="middle" font-size="13" fill="#f2f4f6">ste100 file.txt [--format text|json]</text>
+</svg>
