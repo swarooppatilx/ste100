@@ -1,7 +1,7 @@
 // ============================================================
 //  ASD-STE100 Compliance Checker, NLP Case Study Report
-//  College format: cover, certificate, acknowledgement,
-//  abstract + TOC, then the numbered case-study sections.
+//  College format: cover, then the numbered case-study
+//  sections (matching the reference case-study format).
 //  Color scheme: navy blue accent (classic academic); all
 //  text/background pairs meet WCAG AA contrast.
 //  Font note: template font "Linux Libertine" is not installed
@@ -183,106 +183,18 @@
 ]
 
 // ============================================================
-//  CERTIFICATE
-// ============================================================
-#pagebreak()
-
-#text(size: 16pt, weight: "bold", fill: accent)[Certificate]
-#v(3pt)
-#line(length: 100%, stroke: 0.5pt + rule)
-#v(0.4cm)
-
-This is to certify that the Case Study entitled
-
-#v(0.15cm)
-#align(center)[
-  #text(size: 12pt, weight: "bold")[
-    ASD-STE100 Compliance Checker Using NLP: A Rule-Based Controlled-Language Compliance Checking Tool for Simplified Technical English using Python and spaCy
-  ]
-]
-#v(0.15cm)
-
-being submitted by
-
-#v(0.15cm)
-#align(center)[
-  #text(size: 11.5pt, weight: "bold")[Swaroop Dattatraya Patil #h(8pt) (23510046)]
-]
-#v(0.2cm)
-
-is a record of bonafide work carried out by him under the supervision and guidance of *Mrs. Gunjan Ukalkar*, in partial fulfillment of the requirements for the elective course Natural Language Processing (ITPEC702B), In-Sem I Examination, Fourth Year (Information Technology), Academic Year 2025–2026, at All India Shri Shivaji Memorial Society's Institute of Information Technology, Pune, affiliated to Savitribai Phule Pune University.
-
-#v(1.4cm)
-#grid(
-  columns: (1fr, 1fr),
-  align(left)[*Place:* Pune],
-  []
-)
-#v(1.5cm)
-#grid(
-  columns: (1fr, 1fr),
-  gutter: 1cm,
-  align(center)[
-    #line(length: 75%)
-    #v(3pt)
-    Mrs. Gunjan Ukalkar \
-    *Course Teacher*
-  ],
-  align(center)[
-    #line(length: 75%)
-    #v(3pt)
-    *Head of the Department*
-  ]
-)
-
-// ============================================================
-//  ACKNOWLEDGEMENT
-// ============================================================
-#pagebreak()
-
-#text(size: 16pt, weight: "bold", fill: accent)[Acknowledgement]
-#v(3pt)
-#line(length: 100%, stroke: 0.5pt + rule)
-#v(0.4cm)
-
-I express my sincere gratitude to *Mrs. Gunjan Ukalkar* for her guidance, constant encouragement, and valuable feedback throughout the development of this case study. Her teaching of natural language processing fundamentals shaped the approach used in this work.
-
-I am equally grateful to the faculty members of the Information Technology Department for their support and for clarifying doubts at various stages of the work.
-
-I also thank the ASD STEMG for keeping the ASD-STE100 specification freely available, the authors of the research papers referenced in this report, and the maintainers of the open-source tools (spaCy and Typer) that this project builds upon.
-
-#v(1.5cm)
-#align(right)[*Swaroop Dattatraya Patil* \ Roll No. 23510046]
-
-// ============================================================
-//  ABSTRACT AND TABLE OF CONTENTS
+//  CERTIFICATE AND ACKNOWLEDGEMENT ARE OMITTED
+//  The reference case studies contain no certificate or
+//  acknowledgement pages; page numbering therefore starts on
+//  the first content page.
 // ============================================================
 #pagebreak()
 #set page(numbering: "1", header: page-header, footer: page-footer)
 #counter(page).update(1)
 
-#text(size: 16pt, weight: "bold", fill: accent)[Abstract]
-#v(3pt)
-#line(length: 100%, stroke: 0.5pt + rule)
-#v(0.35em)
-
-ASD-STE100 (Simplified Technical English) governs the vocabulary and grammar of safety-critical technical documentation. This case study develops a rule-based compliance checker that runs spaCy's statistical pipeline over the text, applies ten automatable STE rules to the resulting linguistic structure, and reports each violation with an approved alternative. On a 16-sentence annotated suite the checker reaches precision 0.941, recall 1.000, and F1 0.970 — encouraging, though preliminary. The vocabulary is a curated, extensible JSON dictionary implementing about a third of the standard's Part 2 word list.
-
-#v(0.55em)
-#text(size: 10.5pt)[*Keywords:* Simplified Technical English, controlled natural language, rule-based NLP, spaCy, technical documentation]
-
-#v(1.4em)
-#text(size: 16pt, weight: "bold", fill: accent)[Table of Contents]
-#v(3pt)
-#line(length: 100%, stroke: 0.5pt + rule)
-#v(0.35em)
-
-#outline(title: none)
-
 // ============================================================
 //  CONTENT
 // ============================================================
-#pagebreak()
 
 = Background / Situation
 
