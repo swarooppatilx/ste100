@@ -35,9 +35,10 @@ applicable the approved alternative.
 $ ste100 samples/non_compliant.txt
 Words: 45
 Sentences: 3
-Violations: 21
+Violations: 20
 
-1. [1.1] "Utilise" is not in the approved or technical dictionary (57-64)
+1. [1.1] "Utilize" is not an approved word (57-64)
+   suggestion: use
 2. [1.1] "colour" is not in the approved or technical dictionary (69-75)
 ...
 ```
