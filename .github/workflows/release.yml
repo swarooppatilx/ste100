@@ -51,6 +51,11 @@ jobs:
         with:
           skip-existing: true
 
+      - name: Install typst
+        uses: typst-community/setup-typst@v3
+        with:
+          typst-version: 0.15.1
+
       - name: Compile report
         run: typst compile case-study/main.typ
 
