@@ -40,3 +40,9 @@ def test_cli_short_format_flag(tmp_path):
     result = runner.invoke(app, [str(target), "-f", "json"])
     assert result.exit_code == 0
     assert json.loads(result.stdout)["total"] == 1
+
+
+def test_cli_missing_file():
+    result = runner.invoke(app, ["no_such_file.txt"])
+    assert result.exit_code == 2
+    assert "no_such_file.txt" in result.stderr

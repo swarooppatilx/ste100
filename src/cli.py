@@ -41,7 +41,10 @@ def check(
 ) -> None:
     if fmt not in {"text", "json"}:
         raise typer.BadParameter("format must be 'text' or 'json'")
-    text = path.read_text(encoding="utf-8")
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (FileNotFoundError, IsADirectoryError) as err:
+        raise typer.BadParameter(f"cannot read file: {path}") from err
     doc = get_pipeline()(text)
     report = build_report(doc, build_engine().run(doc))
     typer.echo(render_json(report) if fmt == "json" else render_text(report))
