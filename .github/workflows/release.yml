@@ -57,7 +57,9 @@ jobs:
           typst-version: 0.15.1
 
       - name: Compile report
-        run: typst compile case-study/main.typ
+        run: |
+          typst compile case-study/main.typ
+          mv case-study/main.pdf case-study-report.pdf
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -65,4 +67,4 @@ jobs:
           files: |
             dist/*.whl
             dist/*.tar.gz
-            case-study/main.pdf
+            case-study-report.pdf
