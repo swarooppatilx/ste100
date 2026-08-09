@@ -30,7 +30,5 @@ class PassiveRule(Rule):
         return violations
 
     def _passive_span(self, verb: Token) -> list[Token]:
-        span = [
-            token for token in verb.subtree if token.dep_ in self._PASSIVE_DEPS or token is verb
-        ]
+        span = [verb] + [token for token in verb.children if token.dep_ in self._PASSIVE_DEPS]
         return sorted(span, key=lambda token: token.i)
