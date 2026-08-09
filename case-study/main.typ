@@ -332,7 +332,7 @@ The whole project is developed and verified with a small, modern toolchain:
 #data-table(
   (("Component", "Role in development")),
   (
-    ("Python 3.14", "runtime for the checker and its tooling"),
+    ("Python 3.11–3.14", "runtime for the checker and its tooling"),
     ("spaCy ≥ 3.8.12 + en_core_web_sm", "tokenizer, tagger, dependency parser, lemmatizer"),
     ("Typer", "CLI framework behind the `ste100` command"),
     ("pytest + ruff", "unit tests; linting and formatting"),
