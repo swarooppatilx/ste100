@@ -15,6 +15,10 @@ dependencies = [
     "typer",
 ]
 
+[project.urls]
+Homepage = "https://pypi.org/project/ste100-checker/"
+Repository = "https://github.com/swarooppatilx/ste100"
+
 [project.optional-dependencies]
 dev = [
     "ruff",
