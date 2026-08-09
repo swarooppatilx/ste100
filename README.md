@@ -1,14 +1,21 @@
 # ste100-checker
 
-A rule-based **ASD-STE100 (Simplified Technical English) compliance checker** for
-procedural and descriptive technical text. It analyzes input files with spaCy and
+Rule-based **ASD-STE100 (Simplified Technical English) compliance checker** for
+procedural and descriptive technical text. It analyzes files with spaCy and
 reports writing-rule violations together with approved-alternative suggestions.
 
-STE (ASD-STE100, Issue 9) is a controlled natural language: every word has one
-meaning, sentences are short and simple, and the vocabulary is restricted to an
-approved dictionary. Because STE is itself a rule system — and no public labeled
-STE corpus exists — all compliance logic here is *rule-based* on top of spaCy's
-statistical tokenizer, POS tagger, dependency parser, and lemmatizer.
+STE is a controlled natural language: a restricted vocabulary, one meaning per
+word, short simple sentences. No public labeled STE corpus exists, so all
+compliance logic is rule-based on top of spaCy's statistical tokenizer, POS
+tagger, dependency parser, and lemmatizer.
+
+## Features
+
+- Ten automatable STE rules: vocabulary, part of speech, spelling, noun
+  clusters, verb tense, passive voice, sentence length, semicolons, phrasal verbs
+- Approved-alternative suggestion with every violation
+- Text output for humans, JSON output for pipelines
+- Curated, extensible JSON dictionary (approved, unapproved, technical)
 
 ## Installation
 
@@ -22,14 +29,17 @@ python -m spacy download en_core_web_sm
 
 ## Usage
 
-```bash
+```
 ste100 <file.txt> [--format text|json]
 ```
 
-`text` (default) prints a human-readable report; `json` emits machine-readable
-output. Exit status is `0` whether or not violations are found; each violation
-reports its STE rule id, the offending character span, a message, and where
-applicable the approved alternative.
+| Option     | Alias | Description              | Default  |
+|------------|-------|--------------------------|----------|
+| `path`     |       | Text file to check       | required |
+| `--format` | `-f`  | Output format: `text` or `json` | `text`   |
+| `--help`   |       | Show help and exit       |          |
+
+Text output:
 
 ```text
 $ ste100 samples/non_compliant.txt
@@ -43,6 +53,31 @@ Violations: 20
 ...
 ```
 
+JSON output:
+
+```json
+{
+  "words": 45,
+  "sentences": 3,
+  "total": 20,
+  "violations": [
+    {
+      "rule": "1.1",
+      "start": 57,
+      "end": 64,
+      "text": "Utilize",
+      "message": "\"Utilize\" is not an approved word",
+      "suggestion": "use"
+    }
+  ]
+}
+```
+
+Each violation carries the rule id, character offsets into the source text,
+the offending span, a message, and an approved alternative when one exists.
+Exit status is `0` whether or not violations are found; parse the JSON and
+branch on `total` if you need a nonzero signal.
+
 ## Rule coverage
 
 | STE rule | Check | spaCy technique |
@@ -53,7 +88,7 @@ Violations: 20
 | 2.1 | Noun cluster with more than 3 nouns | consecutive NOUN/PROPN runs |
 | 3.2 / 3.4 | Complex tenses (perfect, progressive, modal + be + VBN, "is to be + VBN") | `Matcher` on `LEMMA` / `TAG` |
 | 3.5 | `-ing` form used as a verb | VBG that is ROOT/conj |
-| 3.6 | Passive voice | `nsubjpass → auxpass → VBN` |
+| 3.6 | Passive voice | `nsubjpass -> auxpass -> VBN` |
 | 5.1 / 6.3 | Sentence longer than 20 (procedural) / 25 (descriptive) words | `doc.sents` + token count |
 | 8.1 | Semicolon usage | token text `;` |
 | 9.3 | Phrasal verbs (curated) | phrase list on lemma |
@@ -61,14 +96,34 @@ Violations: 20
 Non-automatable rules (approved meanings, topic sentences, comprehension) are
 documented as out of scope; checkers are aids, not proofs.
 
-## Dictionaries
+## Extending the dictionary
 
-`data/` holds the curated, extensible STE dictionary as JSON:
+`data/` holds the vocabulary as JSON. `technical.json` stores the domain words
+you add under rules 1.5 / 1.12:
 
-- `approved.json` — approved words mapped to their part of speech
-- `unapproved.json` — unapproved words mapped to approved alternatives
-- `technical.json` — technical nouns (rule 1.5) and technical verbs (rule 1.12)
-  that you can extend for your own domain
+```json
+{
+  "nouns": ["actuator", "alternator", "antenna", "duct", "nozzle", "piston"],
+  "verbs": ["bond", "drill", "weld"]
+}
+```
+
+Append your own terms and rules 1.1 and 1.2 accept them automatically.
+`approved.json` maps approved words to their one allowed part of speech;
+`unapproved.json` maps unapproved words to their approved alternatives.
+
+## Evaluation
+
+`samples/eval.json` is a 16-sentence annotated suite. Run the harness:
+
+```bash
+python -m src.evaluate
+```
+
+Current results: **precision 0.941, recall 1.000, F1 0.970** (one false
+positive: rule 1.1 flags `generator`, a legitimate technical noun absent from
+the small curated dictionary). For context, Boeing BSEC reports 79%/89% and
+SECC 87%/93% on their much larger suites.
 
 ## Development
 
@@ -78,20 +133,6 @@ ruff format --check .
 python -m pytest
 ```
 
-## Evaluation
-
-`samples/eval.json` is a 16-sentence annotated suite labeled by an STE-aware
-judge. Run the harness with:
-
-```bash
-python -m src.evaluate
-```
-
-Results on the current suite: **precision 0.941, recall 1.000, F1 0.970**
-(1 false positive: rule 1.1 flags `generator`, a legitimate technical noun
-absent from the small curated dictionary). For context, Boeing BSEC reports
-79%/89% and SECC 87%/93% on their much larger suites.
-
 ## Project layout
 
 ```
@@ -100,10 +141,10 @@ absent from the small curated dictionary). For context, Boeing BSEC reports
 ├─ src/rules/     one module per rule family
 ├─ samples/       compliant / non-compliant examples + annotated eval suite
 ├─ tests/         per-rule unit tests and CLI/eval tests
-├─ case-study/    college case-study report (Typst) — compile with `typst compile case-study/main.typ`
+├─ case-study/    college case-study report (Typst)
 └─ .github/       CI and release workflows
 ```
 
 ## License
 
-MIT
+MIT. See [LICENSE](LICENSE).
