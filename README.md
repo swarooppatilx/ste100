@@ -1,5 +1,8 @@
 # ste100-checker
 
+[![PyPI version](https://img.shields.io/pypi/v/ste100-checker.svg)](https://pypi.org/project/ste100-checker/)
+[![CI](https://github.com/swarooppatilx/ste100/actions/workflows/ci.yml/badge.svg)](https://github.com/swarooppatilx/ste100/actions/workflows/ci.yml)
+
 Rule-based **ASD-STE100 (Simplified Technical English) compliance checker** for
 procedural and descriptive technical text. It analyzes files with spaCy and
 reports writing-rule violations together with approved-alternative suggestions.
