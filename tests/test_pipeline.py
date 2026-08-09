@@ -1,9 +1,20 @@
-from src.pipeline import analyze, get_pipeline, load_pipeline
+import pytest
+
+from src.pipeline import MODEL, analyze, get_pipeline, load_pipeline
 
 
 def test_load_pipeline():
     nlp = load_pipeline()
     assert nlp("test").text == "test"
+
+
+def test_load_pipeline_missing_model(monkeypatch):
+    def fail(model):
+        raise OSError(f"can not find model '{model}'")
+
+    monkeypatch.setattr("src.pipeline.spacy.load", fail)
+    with pytest.raises(RuntimeError, match=f"python -m spacy download {MODEL}"):
+        load_pipeline()
 
 
 def test_sentence_segmentation():

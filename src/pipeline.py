@@ -8,7 +8,12 @@ _pipeline: Language | None = None
 
 
 def load_pipeline(model: str = MODEL) -> Language:
-    return spacy.load(model)
+    try:
+        return spacy.load(model)
+    except OSError as err:
+        raise RuntimeError(
+            f'spacy model "{model}" is not installed; run: python -m spacy download {model}'
+        ) from err
 
 
 def get_pipeline() -> Language:
