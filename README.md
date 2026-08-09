@@ -25,6 +25,13 @@ tagger, dependency parser, and lemmatizer.
 Requires Python 3.11+.
 
 ```bash
+pip install ste100-checker
+python -m spacy download en_core_web_sm
+```
+
+For development, install from a source checkout:
+
+```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 python -m spacy download en_core_web_sm
@@ -92,7 +99,7 @@ branch on `total` if you need a nonzero signal.
 | 3.2 / 3.4 | Complex tenses (perfect, progressive, modal + be + VBN, "is to be + VBN") | `Matcher` on `LEMMA` / `TAG` |
 | 3.5 | `-ing` form used as a verb | VBG that is ROOT/conj |
 | 3.6 | Passive voice | `nsubjpass -> auxpass -> VBN` |
-| 5.1 / 6.3 | Sentence longer than 20 (procedural) / 25 (descriptive) words | `doc.sents` + token count |
+| 5.1 | Sentence longer than 20 words | `doc.sents` + token count |
 | 8.1 | Semicolon usage | token text `;` |
 | 9.3 | Phrasal verbs (curated) | phrase list on lemma |
 

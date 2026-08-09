@@ -360,7 +360,7 @@ The whole project is developed and verified with a small, modern toolchain:
       ("3.2/3.4", "Complex tenses", "has been opened, will be using, is to be replaced", "`Matcher` on `LEMMA`/`TAG`"),
       ("3.5", "-ing form used as a verb", "will be using", "`VBG` that is `ROOT`/`conj`"),
       ("3.6", "Passive voice", "was checked, was tightened", "`nsubjpass`, `auxpass`, `VBN`"),
-      ("5.1/6.3", "Sentence length over 20/25 words", "overlong procedural sentence", "`doc.sents` + token count"),
+      ("5.1", "Sentence length over 20 words", "overlong procedural sentence", "`doc.sents` + token count"),
       ("8.1", "Semicolon usage", "filter; then", "token text `;`"),
       ("9.3", "Phrasal verbs", "carry out", "phrase list on lemma"),
     ),
@@ -371,7 +371,7 @@ The whole project is developed and verified with a small, modern toolchain:
 
 The tag names come from spaCy's schemes: `nsubjpass`/`auxpass` are Universal Dependencies roles (passive subject / auxiliary), `VBN` is a Penn Treebank past-participle tag, and `VBG` a gerund tag.
 
-The rules fall into two families. Lexical rules (1.1, 1.2, 1.14, 9.3) compare token forms, lemmas, and POS tags against the dictionary; once the dictionary is reliable, these decisions are straightforward. Syntactic rules (2.1, 3.2–3.6, 5.1/6.3, 8.1) walk sentence structure: passive voice follows the dependency chain `nsubjpass, aux*, auxpass, VBN` (the strategy behind PassivePy [9]), complex tenses match auxiliary-lemma patterns, and noun clusters are counted runs of nominal tags.
+The rules fall into two families. Lexical rules (1.1, 1.2, 1.14, 9.3) compare token forms, lemmas, and POS tags against the dictionary; once the dictionary is reliable, these decisions are straightforward. Syntactic rules (2.1, 3.2–3.6, 5.1, 8.1) walk sentence structure: passive voice follows the dependency chain `nsubjpass, aux*, auxpass, VBN` (the strategy behind PassivePy [9]), complex tenses match auxiliary-lemma patterns, and noun clusters are counted runs of nominal tags.
 
 == How a rule fires
 
@@ -402,7 +402,7 @@ spaCy produces these tokens, lemmas, POS tags, and dependencies:
   caption: "Linguistic analysis of one sentence and how rules 3.2 / 3.6 fire",
 )
 
-Rule 3.6 walks the tokens looking for a `nsubjpass` role. It finds `valve` and `system`, each with a passive auxiliary. The first verb, `opened`, collects the span "has been opened was" — the span reaches into the next clause because the parser attaches `was` into `opened`'s subtree. Rule 3.2 separately matches the perfect-tense pattern *has + been + past participle* and reports "has been opened". Both flags for the same clause match the suite's expectation `3.2, 3.6`.
+Rule 3.6 walks the tokens looking for a `nsubjpass` role. It finds `valve` and `system`, each with a passive auxiliary. The first verb, `opened`, collects the span "has been opened" from its auxiliary chain. Rule 3.2 separately matches the perfect-tense pattern *has + been + past participle* and reports "has been opened". Both flags for the same clause match the suite's expectation `3.2, 3.6`.
 
 == Non-automatable rules
 
@@ -523,14 +523,15 @@ Violations: 20
 4. [1.1] "final" is not in the approved or technical dictionary (105-110)
 5. [1.1] "main" is not in the approved or technical dictionary (127-131)
 6. [1.1] "crew" is not in the approved or technical dictionary (221-225)
-7. [1.1] "will" is not in the approved or technical dictionary (226-230)
+7. [1.1] "will" is not an approved word (226-230)
+   suggestion: shall
 8. [1.2] "before" is approved only as adp; it is used here as sconj (26-32)
    suggestion: use "before" only as a adp
 9. [1.2] "pump" is approved only as verb; it is used here as noun (137-141)
    suggestion: use "pump" only as a verb
-10. [2.1] noun cluster: "fuel pump housing flange assembly" (132-165)
+10. [2.1] noun cluster of 5 nouns: "fuel pump housing flange assembly" (132-165)
    suggestion: break the cluster with prepositions or adjectives
-11. [3.6] passive voice: "has been opened was" (10-47)
+11. [3.6] passive voice: "has been opened" (10-25)
    suggestion: rewrite in active voice
 12. [3.6] passive voice: "was checked" (44-55)
    suggestion: rewrite in active voice
@@ -651,10 +652,8 @@ Running the tool also surfaced a few quirks worth recording — none breaks the 
 #callout[Observed output quirks][
   #v(2pt)
   #text(size: 10.5pt)[
-    #obj[`will` is flagged as an unknown word (rule 1.1) because the modal is not in the dictionary; the report cannot yet suggest rewriting "will be using" as "use".]
     #obj[`colour` is flagged twice — once as an unknown word (1.1) and once as a British spelling (1.14).]
     #obj[One suggestion reads "use `before` only as a adp", a wording slip in the part-of-speech template (a vs. an).]
-    #obj[Passive spans can reach into the next clause, as "has been opened was" shows; the span is a hint, not a parse.]
   ]
 ]
 
