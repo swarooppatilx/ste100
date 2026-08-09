@@ -36,6 +36,9 @@ package-dir = {"src" = "src"}
 [tool.setuptools.dynamic]
 version = {attr = "src.__version__"}
 
+[tool.setuptools.package-data]
+src = ["data/*.json", "samples/*"]
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["src*"]

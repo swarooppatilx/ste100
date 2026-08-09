@@ -261,7 +261,7 @@ Keyword search, the obvious first alternative, cannot tell that "pump" is an app
 
 = Dataset / Information
 
-*Curated STE Dictionary (JSON).* The checker's vocabulary is a curated, user-extensible subset — about a third of the standard's roughly 900 approved words — stored in `data/` and loaded by `src/dictionary.py`:
+*Curated STE Dictionary (JSON).* The checker's vocabulary is a curated, user-extensible subset — about a third of the standard's roughly 900 approved words — stored in `src/data/` and loaded by `src/dictionary.py`:
 
 #data-table(
   (("File", "Entries", "Example")),
@@ -271,19 +271,19 @@ Keyword search, the obvious first alternative, cannot tell that "pump" is an app
     ("`technical.json`", "25 technical nouns, 14 technical verbs (rules 1.5 / 1.12)", "`\"actuator\"`, `\"weld\"`, `\"switch on\"`"),
   ),
   (0.45fr, 1.05fr, 1.0fr),
-  caption: "Dictionary files in data/",
+  caption: "Dictionary files in src/data/",
 )
 
 Each JSON file is a flat map. `approved.json` maps a word to the one part of speech it may take (rule 1.2 checks this); `unapproved.json` maps an unapproved word to its approved alternative; `technical.json` groups user-defined technical nouns and verbs. Real entries:
 
 ```json
-// data/approved.json — word : the only part of speech it may take
+// src/data/approved.json — word : the only part of speech it may take
 {"test": "NOUN", "start": "VERB", "air": "NOUN", "open": "VERB"}
 
-// data/unapproved.json — unapproved word : approved alternative
+// src/data/unapproved.json — unapproved word : approved alternative
 {"utilize": "use", "commence": "start", "abort": "stop", "ascertain": "check"}
 
-// data/technical.json — technical nouns and verbs (rules 1.5 / 1.12)
+// src/data/technical.json — technical nouns and verbs (rules 1.5 / 1.12)
 {"nouns": ["actuator", "gasket", "nozzle", "wrench"], "verbs": ["drill", "weld", "switch on"]}
 ```
 
@@ -305,7 +305,7 @@ The dictionary lists the American spelling `utilize` with its alternative; the B
 
 Technical nouns and verbs (rules 1.5 and 1.12) keep the checker practical. A general dictionary cannot enumerate every component or process, so each organization defines its own. The sample set includes component nouns such as `actuator`, `duct`, `gasket`, `turbine`, and `wrench`, and process verbs such as `drill`, `weld`, `solder`, `switch on`, and `taxi`, all editable in `technical.json`.
 
-*Annotated Evaluation Suite.* `samples/eval.json` holds 16 short sentences, each labeled with the rule ids that should fire, including deliberately compliant sentences to measure false positives:
+*Annotated Evaluation Suite.* `src/samples/eval.json` holds 16 short sentences, each labeled with the rule ids that should fire, including deliberately compliant sentences to measure false positives:
 
 #data-table(
   (("Sentence", "Expected rules")),
@@ -320,11 +320,11 @@ Technical nouns and verbs (rules 1.5 and 1.12) keep the checker practical. A gen
     ("Install the generator.", "none (deliberate false-positive probe)"),
   ),
   (1.45fr, 0.55fr),
-  caption: "Annotated evaluation suite (samples/eval.json, 8 of 16 sentences shown)",
+  caption: "Annotated evaluation suite (src/samples/eval.json, 8 of 16 sentences shown)",
 )
 
 #block(breakable: false)[
-  *Working Samples.* `samples/compliant.txt` and `samples/non_compliant.txt` demonstrate the tool on clean and violation-rich text. The end-to-end data flow — input text through spaCy's linguistic analysis and the STE rule engine to a text or JSON report — is shown as the system architecture diagram in Figure 1 (Section 5).
+  *Working Samples.* `src/samples/compliant.txt` and `src/samples/non_compliant.txt` demonstrate the tool on clean and violation-rich text. The end-to-end data flow — input text through spaCy's linguistic analysis and the STE rule engine to a text or JSON report — is shown as the system architecture diagram in Figure 1 (Section 5).
 ]
 
 The whole project is developed and verified with a small, modern toolchain:
@@ -375,7 +375,7 @@ The rules fall into two families. Lexical rules (1.1, 1.2, 1.14, 9.3) compare to
 
 == How a rule fires
 
-To see how the linguistic features drive the rules, consider the first sentence of `samples/non_compliant.txt`:
+To see how the linguistic features drive the rules, consider the first sentence of `src/samples/non_compliant.txt`:
 
 ```text
 The valve has been opened before the system was checked.
@@ -508,10 +508,10 @@ The rule engine (`src/engine.py`) is a pluggable registry: rules register by rul
 
 == Reporting and the command line
 
-Running the tool on `samples/non_compliant.txt` produces the full report. The spans in parentheses are character offsets into the source text:
+Running the tool on `src/samples/non_compliant.txt` produces the full report. The spans in parentheses are character offsets into the source text:
 
 ```text
-$ ste100 samples/non_compliant.txt
+$ ste100 src/samples/non_compliant.txt
 Words: 45
 Sentences: 3
 Violations: 20

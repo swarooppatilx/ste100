@@ -45,7 +45,7 @@ ste100 <file.txt> [--format text|json]
 Text output:
 
 ```text
-$ ste100 samples/non_compliant.txt
+$ ste100 src/samples/non_compliant.txt
 Words: 45
 Sentences: 3
 Violations: 20
@@ -101,7 +101,7 @@ documented as out of scope; checkers are aids, not proofs.
 
 ## Extending the dictionary
 
-`data/` holds the vocabulary as JSON. `technical.json` stores the domain words
+`src/data/` holds the vocabulary as JSON. `technical.json` stores the domain words
 you add under rules 1.5 / 1.12:
 
 ```json
@@ -117,7 +117,7 @@ Append your own terms and rules 1.1 and 1.2 accept them automatically.
 
 ## Evaluation
 
-`samples/eval.json` is a 16-sentence annotated suite. Run the harness:
+`src/samples/eval.json` is a 16-sentence annotated suite. Run the harness:
 
 ```bash
 python -m src.evaluate
@@ -139,10 +139,10 @@ python -m pytest
 ## Project layout
 
 ```
-├─ data/          curated approved / unapproved / technical dictionaries
 ├─ src/           package root: dictionary, pipeline, engine, rules, report, cli, evaluate
+├─ src/data/      curated approved / unapproved / technical dictionaries
 ├─ src/rules/     one module per rule family
-├─ samples/       compliant / non-compliant examples + annotated eval suite
+├─ src/samples/   compliant / non-compliant examples + annotated eval suite
 ├─ tests/         per-rule unit tests and CLI/eval tests
 ├─ case-study/    college case-study report (Typst)
 └─ .github/       CI and release workflows

@@ -7,7 +7,7 @@ from spacy.language import Language
 
 from src.engine import RuleEngine
 
-SAMPLES_DIR = Path(__file__).resolve().parent.parent / "samples"
+SAMPLES_DIR = Path(__file__).resolve().parent / "samples"
 
 
 @dataclass(frozen=True)
