@@ -12,7 +12,7 @@ statistical tokenizer, POS tagger, dependency parser, and lemmatizer.
 
 ## Installation
 
-Requires Python 3.11–3.14.
+Requires Python 3.14.
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
