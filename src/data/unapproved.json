@@ -12,6 +12,7 @@
   "attain": "get",
   "attempt": "try",
   "augment": "increase",
+  "can": ["may", "be able to"],
   "commence": "start",
   "compensate": "make up for",
   "comprise": "consist of",
@@ -19,6 +20,7 @@
   "constitute": "make up",
   "consume": "use",
   "contain": "hold",
+  "could": "may",
   "convenient": "easy to use",
   "currently": "now",
   "demonstrate": "show",
@@ -71,11 +73,14 @@
   "retain": "keep",
   "satisfactory": "suitable",
   "specify": "give",
+  "should": ["shall", "may"],
   "sufficient": "enough",
   "terminate": "stop",
   "transmit": "send",
   "utilize": "use",
   "verify": "check",
   "via": "through",
-  "whilst": "while"
+  "whilst": "while",
+  "will": "shall",
+  "would": "may"
 }

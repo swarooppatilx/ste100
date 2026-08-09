@@ -44,3 +44,12 @@ def test_is_known():
     assert DICT.is_known("use")
     assert DICT.is_known("actuator")
     assert not DICT.is_known("xyzzy")
+
+
+def test_modal_auxiliaries():
+    assert DICT.is_approved("may")
+    assert DICT.approved_pos("shall") == "VERB"
+    assert DICT.is_known("must")
+    assert DICT.is_unapproved("can")
+    assert DICT.alternative("will") == ["shall"]
+    assert DICT.alternative("can") == ["may", "be able to"]
